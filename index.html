@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f5ef" />
+    <title>Есть один маленький план ♡</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        color-scheme: light;
+        --ink: #49423f;
+        --muted: #817773;
+        --purple: #77618e;
+        --line: #e9e2da;
+      }
+      body {
+        margin: 0;
+        background: #f8f5ef;
+        color: var(--ink);
+        font-family: "Trebuchet MS", Arial, sans-serif;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button,
+      label {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      label:has(input:focus-visible) {
+        outline: 0.2rem solid #9579ad;
+        outline-offset: 0.25rem;
+      }
+      .page {
+        max-width: 68rem;
+        margin: auto;
+        padding: 2rem 2rem 1.2rem;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.8rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: bold;
+        letter-spacing: 0.04em;
+      }
+      .brand span {
+        color: var(--purple);
+        font-size: 1.5rem;
+      }
+      .hero {
+        text-align: center;
+        position: relative;
+        padding: 3.5rem 0 2.5rem;
+      }
+      .eyebrow {
+        display: inline-block;
+        background: #ece7f2;
+        color: #796489;
+        border-radius: 2rem;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+      }
+      h1 {
+        font-family: Georgia, serif;
+        font-weight: normal;
+        font-size: clamp(2.6rem, 6vw, 4.5rem);
+        letter-spacing: -0.055em;
+        line-height: 1.12;
+        margin: 1rem 0;
+      }
+      h1 em {
+        color: var(--purple);
+        font-weight: normal;
+      }
+      .hero p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.95rem;
+        margin: 0;
+      }
+      .sticker {
+        position: absolute;
+        font-size: 3.4rem;
+        filter: drop-shadow(0 0.25rem 0 white);
+        user-select: none;
+      }
+      .flower {
+        left: 7%;
+        top: 5rem;
+        transform: rotate(-18deg);
+      }
+      .letter {
+        right: 6%;
+        top: 6rem;
+        transform: rotate(15deg);
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 42rem;
+        margin: auto;
+        align-items: start;
+        gap: 1.6rem;
+      }
+      .form-card {
+        background: #fffefa;
+        border: 1px solid var(--line);
+        padding: 2rem;
+        border-radius: 1.3rem;
+      }
+      fieldset {
+        border: 0;
+        margin: 0 0 1.9rem;
+        padding: 0;
+        min-width: 0;
+      }
+      legend {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-weight: bold;
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+      }
+      .number {
+        display: inline-grid;
+        place-items: center;
+        width: 1.65rem;
+        height: 1.65rem;
+        border-radius: 50%;
+        background: #f0eaf5;
+        color: var(--purple);
+        font-size: 0.7rem;
+      }
+      .choices {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+      }
+      .choice {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 0.85rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .choice:hover {
+        transform: translateY(-0.15rem);
+      }
+      .choice:has(input:checked) {
+        background: #f2edf7;
+        border-color: #a58bbd;
+      }
+      .choice input {
+        position: absolute;
+        right: 0.85rem;
+        top: 0.85rem;
+        accent-color: var(--purple);
+        width: 1rem;
+        height: 1rem;
+      }
+      .choice .emoji {
+        font-size: 2.4rem;
+        margin: 0.25rem 0 0.8rem;
+      }
+      .choice strong {
+        font-size: 0.9rem;
+        margin-bottom: 0.35rem;
+      }
+      .choice small {
+        color: var(--muted);
+        font-size: 0.73rem;
+        line-height: 1.5;
+      }
+      .date-field {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      input[type="date"],
+      input[type="time"] {
+        border: 1px solid var(--line);
+        border-radius: 0.7rem;
+        padding: 0.8rem;
+        background: #fffefa;
+        color: var(--ink);
+        min-height: 2.8rem;
+        min-width: 0;
+      }
+      input[type="date"] {
+        width: 100%;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 0.75rem;
+        line-height: 1.6;
+        margin: 0.65rem 0 0;
+      }
+      .times {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .time {
+        position: relative;
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 0.6rem;
+        padding: 0.65rem 0.9rem;
+        font-size: 0.8rem;
+      }
+      .time input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+      }
+      .time:has(input:checked) {
+        background: #eee7f4;
+        border-color: #a58bbd;
+        color: #69527f;
+      }
+      .custom {
+        display: flex;
+        gap: 0.7rem;
+        align-items: center;
+        margin-top: 0.8rem;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .custom input {
+        padding: 0.4rem 0.65rem;
+        min-height: 2.2rem;
+      }
+      .submit {
+        width: 100%;
+        border: 0;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: var(--purple);
+        color: white;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+      }
+      .submit:hover {
+        background: #665078;
+      }
+      .under-button {
+        text-align: center;
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin: 0.7rem 0 0;
+      }
+      .summary {
+        margin: 2rem 0.4rem 0;
+      }
+      .summary h3 {
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-size: 0.65rem;
+        color: var(--muted);
+        font-weight: normal;
+      }
+      .summary p {
+        font-size: 0.85rem;
+        line-height: 1.8;
+      }
+      .aside-heart {
+        text-align: center;
+        color: #b09bb9;
+        font:
+          3rem Georgia,
+          serif;
+        margin-top: 1.5rem;
+        transform: rotate(-12deg);
+      }
+      footer {
+        text-align: center;
+        color: #998d85;
+        font-size: 0.7rem;
+        padding: 2rem 0 0.5rem;
+      }
+      dialog {
+        color: var(--ink);
+        background: #fffefa;
+        width: min(30rem, calc(100% - 2rem));
+        border: 1px solid var(--line);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        text-align: center;
+      }
+      dialog::backdrop {
+        background: #49423f66;
+        backdrop-filter: blur(0.25rem);
+      }
+      dialog h2 {
+        font:
+          normal 2.3rem Georgia,
+          serif;
+        margin: 1rem 0;
+      }
+      dialog p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+      }
+      .result {
+        background: #f2edf7;
+        padding: 1rem;
+        border-radius: 0.7rem;
+        white-space: pre-line;
+        text-align: left;
+      }
+      .secondary {
+        background: transparent;
+        border: 0;
+        color: var(--purple);
+        padding: 0.8rem;
+        margin-top: 0.5rem;
+        text-decoration: underline;
+      }
+      #copy-status {
+        min-height: 1.2rem;
+        margin-bottom: 0;
+        font-size: 0.75rem;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .progress {
+        display: flex;
+        gap: 0.4rem;
+        margin-bottom: 1.8rem;
+      }
+      .progress span {
+        height: 0.25rem;
+        flex: 1;
+        border-radius: 1rem;
+        background: #eee8e1;
+      }
+      .progress span.active {
+        background: #a18ab5;
+      }
+      .step-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 0.8rem;
+      }
+      .intro {
+        text-align: center;
+        padding: 1rem 0 2rem;
+      }
+      .intro .intro-sticker {
+        font-size: 5rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+      .intro h2 {
+        font:
+          normal 2rem Georgia,
+          serif;
+        margin: 1rem 0;
+      }
+      .form-card {
+        min-height: 25rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .form-card fieldset {
+        flex: 1;
+      }
+      .navigation {
+        margin-top: auto;
+      }
+      .back {
+        display: block;
+        margin: 0.5rem auto 0;
+      }
+      .step-enter {
+        animation: arrive 0.35s ease-out;
+      }
+      @keyframes arrive {
+        from {
+          opacity: 0;
+          transform: translateY(0.6rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .step-enter {
+          animation: none;
+        }
+      }
+      @media (max-width: 46rem) {
+        .page {
+          padding: 1.2rem;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 2.7rem 0 2rem;
+        }
+        .sticker {
+          font-size: 2rem;
+        }
+        .flower {
+          left: 0;
+          top: 2rem;
+        }
+        .letter {
+          right: 0;
+          top: 8.5rem;
+        }
+        .form-card {
+          padding: 1.2rem;
+        }
+        aside {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .aside-heart {
+          display: none;
+        }
+      }
+      @media (max-width: 25rem) {
+        aside {
+          grid-template-columns: 1fr;
+        }
+        .summary {
+          margin-top: 0.5rem;
+        }
+        .choice {
+          padding: 0.8rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="brand"><span>♡</span> маленькие планы</div>
+      </header>
+      <main>
+        <section class="hero" aria-labelledby="title">
+          <span class="sticker flower" aria-hidden="true">🌼</span>
+          <span class="eyebrow">ПРИГЛАШЕНИЕ БЕЗ ПОВОДА</span>
+          <h1 id="title">А давай <em>увидимся?</em></h1>
+          <p hidden></p>
+          <span class="sticker letter" aria-hidden="true">💌</span>
+        </section>
+        <div class="layout">
+          <form class="form-card" id="invitation">
+            <div class="step-label" id="step-label" aria-live="polite">
+              МАЛЕНЬКАЯ АВАНТЮРА
+            </div>
+            <div class="progress" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <section class="intro" id="intro">
+              <span class="intro-sticker" aria-hidden="true">💌</span>
+              <h2>Тебе тут кое-что пришло.</h2>
+            </section>
+            <fieldset>
+              <legend><span class="number">01</span> Чем займёмся?</legend>
+              <div class="choices">
+                <label class="choice"
+                  ><input
+                    type="radio"
+                    name="activity"
+                    value="walk"
+                    checked
+                  /><span class="emoji" aria-hidden="true">🌳</span
+                  ><strong>Пойдём гулять</strong
+                  ><small
+                    >Наматывать шаги и обсуждать всё на свете</small
+                  ></label
+                >
+                <label class="choice"
+                  ><input type="radio" name="activity" value="cafe" /><span
+                    class="emoji"
+                    aria-hidden="true"
+                    >☕</span
+                  ><strong>Посидим в кафе</strong
+                  ><small
+                    >Кофе, что-нибудь вкусное и хорошая компания</small
+                  ></label
+                >
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend><span class="number">02</span> В какой день?</legend>
+              <label class="date-field" for="date"
+                ><input
+                  id="date"
+                  name="date"
+                  type="date"
+                  aria-label="Дата встречи"
+                  required
+              /></label>
+              <p class="hint">
+                Выбирай удобный день. Я освобожу место для маленького
+                приключения.
+              </p>
+            </fieldset>
+            <fieldset>
+              <legend><span class="number">03</span> А во сколько?</legend>
+              <div class="times">
+                <label class="time"
+                  ><input type="radio" name="time" value="12:00" />12:00</label
+                >
+                <label class="time"
+                  ><input type="radio" name="time" value="15:00" />15:00</label
+                >
+                <label class="time"
+                  ><input
+                    type="radio"
+                    name="time"
+                    value="17:00"
+                    checked
+                  />17:00</label
+                >
+                <label class="time"
+                  ><input type="radio" name="time" value="19:00" />19:00</label
+                >
+              </div>
+              <label class="custom" for="custom-time"
+                >Или своё время
+                <input
+                  id="custom-time"
+                  type="time"
+                  aria-label="Своё время встречи"
+              /></label>
+            </fieldset>
+            <div class="navigation">
+              <button class="submit" id="next" type="button">
+                Ладно, заинтриговала →
+              </button>
+              <button class="submit" id="finish" type="submit" hidden>
+                План есть. Осталось выйти из дома →
+              </button>
+              <button class="secondary back" id="back" type="button" hidden>
+                ← Назад
+              </button>
+            </div>
+            <p class="under-button">
+              Никаких обязательств. Только приятные планы.
+            </p>
+          </form>
+          <aside aria-label="Заметка к приглашению">
+            <div class="summary">
+              <h3>Наш маленький план</h3>
+              <p id="summary" aria-live="polite"></p>
+              <div class="aside-heart" aria-hidden="true">♡</div>
+            </div>
+          </aside>
+        </div>
+      </main>
+      <footer>сделано с теплом и лёгким волнением · ♡</footer>
+    </div>
+    <dialog id="confirmation" aria-labelledby="result-title">
+      <div aria-hidden="true" style="font-size: 3rem">🥰</div>
+      <h2 id="result-title">Это отличный план!</h2>
+      <p>
+        Остался один шаг: скопируй ответ и отправь тому, кто тебя пригласил.
+      </p>
+      <p class="result" id="result"></p>
+      <button type="button" class="submit" id="copy">
+        Скопировать ответ ♡
+      </button>
+      <p id="copy-status" role="status"></p>
+      <button type="button" class="secondary" id="edit">
+        Хочу изменить план
+      </button>
+    </dialog>
+    <script>
+      const form = document.querySelector("#invitation");
+      const dateInput = document.querySelector("#date");
+      const customTime = document.querySelector("#custom-time");
+      const summary = document.querySelector("#summary");
+      const dialog = document.querySelector("#confirmation");
+      const result = document.querySelector("#result");
+      const copyStatus = document.querySelector("#copy-status");
+      function localDate(date) {
+        return [
+          date.getFullYear(),
+          String(date.getMonth() + 1).padStart(2, "0"),
+          String(date.getDate()).padStart(2, "0"),
+        ].join("-");
+      }
+      function refreshMinimum() {
+        dateInput.min = localDate(new Date());
+      }
+      refreshMinimum();
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      dateInput.value = localDate(tomorrow);
+      function selectedPlan() {
+        const data = new FormData(form);
+        const date = dateInput.value
+          ? new Date(dateInput.value + "T12:00:00")
+          : undefined;
+        return {
+          activity:
+            data.get("activity") === "walk"
+              ? "Пойдём гулять"
+              : "Посидим в кафе",
+          date: date
+            ? date.toLocaleDateString("ru-RU", {
+                day: "numeric",
+                month: "long",
+                weekday: "long",
+              })
+            : "Выбери день",
+          time: customTime.value || data.get("time") || "",
+        };
+      }
+      function updateSummary() {
+        const plan = selectedPlan();
+        summary.textContent = `${plan.activity} · ${plan.date}${plan.time ? " в " + plan.time : ""}. Ты + я = хороший день ♡`;
+      }
+      form.addEventListener("input", updateSummary);
+      form.addEventListener("change", (event) => {
+        if (event.target.name === "time") {
+          customTime.value = "";
+        }
+        updateSummary();
+      });
+      customTime.addEventListener("input", () => {
+        if (customTime.value) {
+          form.querySelectorAll('[name="time"]').forEach((input) => {
+            input.checked = false;
+          });
+        } else if (!form.querySelector('[name="time"]:checked')) {
+          form.querySelector('[name="time"][value="17:00"]').checked = true;
+        }
+        updateSummary();
+      });
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (step !== 3) {
+          return;
+        }
+        refreshMinimum();
+        if (!form.reportValidity()) {
+          return;
+        }
+        const plan = selectedPlan();
+        result.textContent = `Я за! ♡\n${plan.activity} — ${plan.date} в ${plan.time}.\nМесто выберем вместе. Уже жду встречи :)`;
+        copyStatus.textContent = "";
+        dialog.showModal();
+      });
+      document.querySelector("#edit").addEventListener("click", () => {
+        dialog.close();
+      });
+      document.querySelector("#copy").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(result.textContent);
+          copyStatus.textContent = "Скопировано! Можно отправлять 💌";
+        } catch {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(result);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          copyStatus.textContent =
+            "Ответ выделен. Нажми ⌘C на Mac или Ctrl+C на Windows.";
+        }
+      });
+      const screens = [
+        document.querySelector("#intro"),
+        ...form.querySelectorAll("fieldset"),
+      ];
+      const nextButton = document.querySelector("#next");
+      const backButton = document.querySelector("#back");
+      const finishButton = document.querySelector("#finish");
+      const stepLabel = document.querySelector("#step-label");
+      const headings = [
+        "А давай <em>увидимся?</em>",
+        "Начнём с <em>приятного.</em>",
+        "Найди для меня <em>денёк.</em>",
+        "Во сколько <em>встречаемся?</em>",
+      ];
+      const subtitles = [
+        "",
+        "Первый сложный вопрос: свежий воздух или что-нибудь вкусное?",
+        "Отличный выбор. Мне уже нравится, куда всё идёт.<br>Теперь выберем день для нашего маленького побега от дел.",
+        "Почти договорились! Осталось сверить часы.",
+      ];
+      const buttonLabels = [
+        "Ладно, заинтриговала →",
+        "Мне нравится. Что дальше? →",
+        "Записываем в календарик →",
+      ];
+      let step = 0;
+      function renderStep(isFocus = true) {
+        screens.forEach((screen, index) => {
+          screen.hidden = index !== step;
+          screen.classList.toggle("step-enter", index === step);
+          screen.querySelectorAll("input").forEach((input) => {
+            input.disabled = index !== step;
+          });
+        });
+        // Keep prior answers in FormData while validating only the current screen.
+        form.querySelectorAll("input").forEach((input) => {
+          input.disabled = false;
+        });
+        dateInput.required = step >= 2;
+        document.querySelector("#title").innerHTML = headings[step];
+        document.querySelector(".hero p").innerHTML = subtitles[step];
+        document.querySelector(".hero p").hidden = !subtitles[step];
+        stepLabel.textContent =
+          step === 0 ? "МАЛЕНЬКАЯ АВАНТЮРА" : `ВОПРОС ${step} ИЗ 3`;
+        document.querySelectorAll(".progress span").forEach((bar, index) => {
+          bar.classList.toggle("active", index <= step);
+        });
+        nextButton.hidden = step === 3;
+        finishButton.hidden = step !== 3;
+        backButton.hidden = step === 0;
+        nextButton.textContent = buttonLabels[step] || "";
+        document.querySelector("aside").hidden = step < 2;
+        if (isFocus) {
+          stepLabel.tabIndex = -1;
+          stepLabel.focus({ preventScroll: true });
+          form.scrollIntoView({ behavior: "instant", block: "nearest" });
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        refreshMinimum();
+        if (step === 2 && !dateInput.reportValidity()) {
+          return;
+        }
+        step = Math.min(3, step + 1);
+        renderStep();
+      });
+      backButton.addEventListener("click", () => {
+        step = Math.max(0, step - 1);
+        renderStep();
+      });
+      form.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Enter" &&
+          event.target.tagName === "INPUT" &&
+          step < 3
+        ) {
+          event.preventDefault();
+          nextButton.click();
+        }
+      });
+      renderStep(false);
+      updateSummary();
+    </script>
+  </body>
+</html>
